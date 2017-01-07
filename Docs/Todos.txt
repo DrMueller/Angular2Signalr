@@ -1,0 +1,5 @@
+Snippets for Client-side (Component, Service, Module, Routing)
+Snippets for Controller
+Describe folder structure and naming conventions
+
+Lint (See John Papas template)

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>List of Hello Worlds</title>
+</head>
+<body>
+    
+
+<div class="row">
+    <div class="col-md-12" style="background: yellow;">
+        <label>Error: </label>
+        <label>{{errorWarning}}</label>
+    </div>
+</div>  
+
+<div class="row">
+    <div class="col-md-6"  style="background: lightblue;">
+        <button class="col-md-3" (click)="throwException()">Throw</button>
+        <button class="col-md-3" (click)="throwException()">Test</button>
+    </div>
+</div>  
+
+    <div class="row">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Greeted persons</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hw of helloWorlds">
+                    <td>{{ hw.greetingsMessage }}</td>
+                    <td>{{ hw.greetingsDate }}</td>
+                    <td>{{ hw.greetedPersons }}</td>
+
+                    <!--<part1 [helloWorld]="lw"></part1>-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

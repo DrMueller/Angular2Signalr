@@ -1,0 +1,11 @@
+Packages:
+RxJs seems to have a Bug in the newer version, so we leave it at 5.0.0-beta.12
+
+Barrels:
+SystemJS doesnt seem to recognize index.ts by default, so we currently add it everywhere, or we need to keep track of all index.ts in the systemjs-config
+
+Errors:
+(SystemJS) Unexpected token <
+--> Since SystemJS doesn't know Barrels without index, missing the /index is one of the reasons to cause this error
+
+
