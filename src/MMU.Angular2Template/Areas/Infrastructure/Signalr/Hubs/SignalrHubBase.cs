@@ -1,14 +1,16 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using MMU.Angular2Template.Infrastructure.Signalr.Interfaces;
 using MMU.Angular2Template.Infrastructure.Signalr.Models;
 
 namespace MMU.Angular2Template.Infrastructure.Signalr.Hubs
 {
     /// <summary>
-    /// A signalR hub that provides channel-based event broadcasting
-    /// that clients can subscribe to
+    /// This class is used as proxy for the Server- and Client-Side
+    /// The Implementation of ISignalrHub defines the Server-side
     /// </summary>
-    public class ChannelHub : Hub // The Class name has to match the Hubname defined in the TS
+    public abstract class SignalrHubBase : Hub, ISignalrHub
     {
         private const string ADMIN_CHANNEL = "AdminChannel";
 
@@ -53,7 +55,6 @@ namespace MMU.Angular2Template.Infrastructure.Signalr.Hubs
             if (channelEvent.ChannelName != ADMIN_CHANNEL)
             {
                 // Push this out on the admin channel
-                //
                 Clients.Group(ADMIN_CHANNEL).OnEvent(ADMIN_CHANNEL, channelEvent);
             }
 
@@ -94,6 +95,12 @@ namespace MMU.Angular2Template.Infrastructure.Signalr.Hubs
             };
 
             await Publish(ev);
+        }
+
+        public void PublishEventToChannel(string channelName, string eventName, object message)
+        {
+            
+            //Context.Clients.Group(SIGNALR_CHANNEL_NAME).OnEvent(SIGNALR_CHANNEL_NAME, fl);
         }
     }
 }

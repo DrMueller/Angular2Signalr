@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MMU.Angular2Template.Infrastructure.Middlewares;
+using MMU.Angular2Template.Infrastructure.Signalr;
 
 namespace MMU.Angular2Template
 {
@@ -56,6 +57,8 @@ namespace MMU.Angular2Template
         {
             services.AddMvc();
             services.AddSignalR();
+
+            SignalrRegistration.RegisterServices(services);
         }
     }
 }

@@ -2,45 +2,8 @@
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 
-/**
- * When SignalR runs it will add functions to the global $ variable 
- * that you use to create connections to the hub. However, in this
- * class we won't want to depend on any global variables, so this
- * class provides an abstraction away from using $ directly in here.
- */
-export class SignalrWindow extends Window {
-    $: any;
-}
-
-export enum ConnectionState {
-    Connecting = 1,
-    Connected = 2,
-    Reconnecting = 3,
-    Disconnected = 4
-}
-
-export class ChannelConfig {
-    url: string;
-    hubName: string;
-    channel: string;
-}
-
-export class ChannelEvent {
-    Name: string;
-    ChannelName: string;
-    Timestamp: Date;
-    Data: any;
-    Json: string;
-
-    constructor() {
-        this.Timestamp = new Date();
-    }
-}
-
-class ChannelSubject {
-    channel: string;
-    subject: Subject<ChannelEvent>;
-}
+import * as signalr from "./Index";
+import { ChannelSubject } from "./channel-subject"; 
 
 /**
  * ChannelService is a wrapper around the functionality that SignalR
@@ -61,7 +24,7 @@ export class ChannelService {
      * connectionState$ provides the current state of the underlying
      * connection as an observable stream.
      */
-    connectionState$: Observable<ConnectionState>;
+    connectionState$: Observable<signalr.ConnectionState>;
 
     /**
      * error$ provides a stream of any error messages that occur on the 
@@ -71,7 +34,7 @@ export class ChannelService {
 
     // These are used to feed the public observables 
     //
-    private connectionStateSubject = new Subject<ConnectionState>();
+    private connectionStateSubject = new Subject<signalr.ConnectionState>();
     private startingSubject = new Subject<any>();
     private errorSubject = new Subject<any>();
 
@@ -85,8 +48,8 @@ export class ChannelService {
     private subjects = new Array<ChannelSubject>();
 
     constructor(
-        @Inject(SignalrWindow) private window: SignalrWindow,
-        @Inject("channel.config") private channelConfig: ChannelConfig
+        @Inject(signalr.SignalrWindow) private window: signalr.SignalrWindow,
+        @Inject("channel.config") private channelConfig: signalr.ChannelConfig
     ) {
         if (this.window.$ === undefined || this.window.$.hubConnection === undefined) {
             throw new Error("The variable '$' or the .hubConnection() function are not defined...please check the SignalR scripts have been loaded properly");
@@ -105,20 +68,20 @@ export class ChannelService {
         // Define handlers for the connection state events
         //
         this.hubConnection.stateChanged((state: any) => {
-            let newState = ConnectionState.Connecting;
+            let newState = signalr.ConnectionState.Connecting;
 
             switch (state.newState) {
                 case this.window.$.signalR.connectionState.connecting:
-                    newState = ConnectionState.Connecting;
+                    newState = signalr.ConnectionState.Connecting;
                     break;
                 case this.window.$.signalR.connectionState.connected:
-                    newState = ConnectionState.Connected;
+                    newState = signalr.ConnectionState.Connected;
                     break;
                 case this.window.$.signalR.connectionState.reconnecting:
-                    newState = ConnectionState.Reconnecting;
+                    newState = signalr.ConnectionState.Reconnecting;
                     break;
                 case this.window.$.signalR.connectionState.disconnected:
-                    newState = ConnectionState.Disconnected;
+                    newState = signalr.ConnectionState.Disconnected;
                     break;
             }
 
@@ -135,7 +98,7 @@ export class ChannelService {
             this.errorSubject.next(error);
         });
 
-        this.hubProxy.on("onEvent", (channel: string, ev: ChannelEvent) => {
+        this.hubProxy.on("onEvent", (channel: string, ev: signalr.ChannelEvent) => {
             //console.log(`onEvent - ${channel} channel`, ev);
 
             // This method acts like a broker for incoming messages. We 
@@ -183,7 +146,7 @@ export class ChannelService {
      * Get an observable that will contain the data associated with a specific 
      * channel 
      * */
-    sub(channel: string): Observable<ChannelEvent> {
+    sub(channel: string): Observable<signalr.ChannelEvent> {
 
         // Try to find an observable that we already created for the requested 
         //  channel
@@ -211,7 +174,7 @@ export class ChannelService {
         //
         channelSub = new ChannelSubject();
         channelSub.channel = channel;
-        channelSub.subject = new Subject<ChannelEvent>();
+        channelSub.subject = new Subject<signalr.ChannelEvent>();
         this.subjects.push(channelSub);
 
         // Now SignalR is asynchronous, so we need to ensure the connection is
@@ -248,7 +211,7 @@ export class ChannelService {
      * production app the server would ensure that only authorized clients can
      * actually emit the message, but here we're not concerned about that.
      */
-    publish(ev: ChannelEvent): void {
+    publish(ev: signalr.ChannelEvent): void {
         this.hubProxy.invoke("Publish", ev);
     }
 

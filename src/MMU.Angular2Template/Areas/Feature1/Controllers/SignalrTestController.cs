@@ -9,7 +9,7 @@ namespace MMU.Angular2Template.Areas.Feature1.Controllers
     [Route("api/[controller]")]
     public class SignalrTestController : Controller
     {
-        private const string SIGNALR_CHANNEL_NAME = "Test2";
+        private const string SIGNALR_CHANNEL_NAME = "Test2"; // The Channel has to be defined on the Client-Side as well
         private readonly IHubContext _hubContext;
 
         public SignalrTestController(IConnectionManager connectionManager)
@@ -22,7 +22,7 @@ namespace MMU.Angular2Template.Areas.Feature1.Controllers
         {
             for (int i = 0; i <= 100; i++)
             {
-                PublishEvent("Test", "Hello World: " + i);
+                PublishEvent("Test1234", "Hello World: " + i);
                 Thread.Sleep(200);
             }
         }
