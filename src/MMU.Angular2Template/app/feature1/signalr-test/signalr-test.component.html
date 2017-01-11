@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SignalR Testing</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <button class="col-md-3" (click)="publishSomeSignalr()">SignalR!</button>
+            <!--<button class="col-md-3" (click)="throwException()">Test</button>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <fieldset>
+            <legend>Information</legend>
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <span>Connection state: </span>
+                <span>{{connectionState}}</span>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Channel-Name</th>
+                    <th>Timestamp</th>
+                    <th>Data</th>
+                    <th>JSON</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let ce of channelEvents">
+                    <td>{{ ce.Name }}</td>
+                    <td>{{ ce.ChannelName }}</td>
+                    <td>{{ ce.Timestamp }}</td>
+                    <td>{{ ce.Data }}</td>
+                    <td>{{ ce.Json }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+</body>
+</html>

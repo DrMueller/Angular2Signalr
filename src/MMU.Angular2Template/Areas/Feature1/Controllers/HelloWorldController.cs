@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 using MMU.Angular2Template.Areas.Feature1.Models;
+using MMU.Angular2Template.Infrastructure.Signalr.Models;
 
 namespace MMU.Angular2Template.Areas.Feature1.Controllers
 {

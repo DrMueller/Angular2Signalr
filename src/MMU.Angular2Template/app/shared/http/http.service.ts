@@ -1,17 +1,41 @@
 ﻿import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
-
+import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+
+import * as http from "./index";
 
 @Injectable()
 export class HttpService {
     constructor(private http: Http) { }
 
-    get<T>(url: string): Promise<T> {
-        return this.http.get(url)
-            .map(this.extractJson)
+    public get<T>(url: string): Promise<T> {
+        return this.processResponse(this.http.get(url));
+    }
+
+    public post<T>(url: string, body: any, contentType: http.ContentType): Promise<T> {
+        let headers = new Headers();
+        headers.append('Content-Type', this.mapContentType(contentType));
+
+        var requestoptions = new RequestOptions({
+            headers: headers
+        });
+
+        return this.processResponse(this.http.post(url, body, requestoptions));
+    }
+
+    private processResponse<T>(response: Observable<Response>): Promise<T> {
+        return response.map(this.extractJson)
             .toPromise()
             .catch(this.handleError);
+    }
+
+    private mapContentType(contentType: http.ContentType) : string {
+        switch (contentType) {
+            case http.ContentType.ApplicationJson:
+                return "application/json";
+            default:
+                throw new RangeError(contentType.toString() + " is not recognized");
+        }
     }
 
     private extractJson(res: Response) {

@@ -4,12 +4,12 @@ import { Http, Response } from "@angular/http";
 import { HelloWorld } from "../models/hello-world.model";
 import { Observable } from "rxjs/Observable";
 
-import * as sharedServices from "../../../shared/services/index";
+import * as http from "../../../shared/http/index";
 
 
 @Injectable()
 export class HelloWorldService {
-    constructor(private httpService: sharedServices.HttpService) { }
+    constructor(private httpService: http.HttpService) { }
 
     getHelloWorlds(): Promise<HelloWorld[]> {
         const url = "api/HelloWorld/helloWorlds";

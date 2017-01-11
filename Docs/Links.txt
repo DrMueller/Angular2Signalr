@@ -1,13 +1,1 @@
-Folder-Structure guide 
-https://angular.io/styleguide --> "Here is a compliant folder and file structure"
-
-Style-Guide Brainstorming:
-- Every Components consists a html, ts and less file
-- Every Feature (direct Folder under the app one) has it's own module, routing and barrel (index.ts)
-- Every Sub-Feature has it's own barrel
-- Every folder and file-name in the app-section is writtien in lower case
-- instead of camel case, - can be used for better readability
-- Observables only in Services, otherwise Promises (According to Ward Bell), except if a stream is in fact needed
-
-Routing:
-- The most specific Routes should always come before the more general ones
+https://blog.sstorie.com/integrating-angular2-and-signalr-part-1/

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace MMU.Angular2Template.Middlewares
+namespace MMU.Angular2Template.Infrastructure.Middlewares
 {
     public class ErrorHandlingMiddleware
     {

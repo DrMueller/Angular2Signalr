@@ -4,6 +4,7 @@
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+    "Microsoft.AspNetCore.SignalR.Server": "0.2.0-preview2-22683",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.Extensions.Configuration": "1.1.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
