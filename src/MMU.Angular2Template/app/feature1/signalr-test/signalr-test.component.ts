@@ -10,7 +10,6 @@ import { SignalrTestService } from "../shared/services/signalr-test.service";
 })
 
 export class SignalrTestComponent implements OnInit{
-
     private CHANNEL_NAME: string = "Test2";
 
     private connectionState: string;
