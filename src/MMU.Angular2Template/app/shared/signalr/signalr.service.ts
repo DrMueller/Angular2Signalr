@@ -3,7 +3,10 @@ import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 
 import * as signalr from "./Index";
-import { ChannelSubject } from "./channel-subject"; 
+import { ChannelSubject } from "./channel-subject";
+import * as coreServices from "../../core/services/index";
+
+
 
 /**
  * ChannelService is a wrapper around the functionality that SignalR
@@ -47,40 +50,38 @@ export class ChannelService {
     //
     private subjects = new Array<ChannelSubject>();
 
-    constructor(
-        @Inject(signalr.SignalrWindow) private window: signalr.SignalrWindow,
-        @Inject("channel.config") private channelConfig: signalr.ChannelConfig
-    ) {
-        if (this.window.$ === undefined || this.window.$.hubConnection === undefined) {
+    constructor(windowWrapperService: coreServices.WindowWrapperService) {
+        if (windowWrapperService.$ === undefined || windowWrapperService.$.hubConnection === undefined) {
             throw new Error("The variable '$' or the .hubConnection() function are not defined...please check the SignalR scripts have been loaded properly");
         }
 
-        // Set up our observables
-        //
+        let signalrUrl = windowWrapperService.location.origin + "/signalr";
+        let channelConfig = new signalr.ChannelConfig();
+        channelConfig.url = signalrUrl;
+        channelConfig.hubName = "ChannelHub"; // This name has to match the Type-Name on the Server-Class
+
         this.connectionState$ = this.connectionStateSubject.asObservable();
         this.error$ = this.errorSubject.asObservable();
         this.starting$ = this.startingSubject.asObservable();
 
-        this.hubConnection = this.window.$.hubConnection();
+        this.hubConnection = windowWrapperService.$.hubConnection();
         this.hubConnection.url = channelConfig.url;
         this.hubProxy = this.hubConnection.createHubProxy(channelConfig.hubName);
 
-        // Define handlers for the connection state events
-        //
         this.hubConnection.stateChanged((state: any) => {
             let newState = signalr.ConnectionState.Connecting;
 
             switch (state.newState) {
-                case this.window.$.signalR.connectionState.connecting:
+                case windowWrapperService.$.signalR.connectionState.connecting:
                     newState = signalr.ConnectionState.Connecting;
                     break;
-                case this.window.$.signalR.connectionState.connected:
+                case windowWrapperService.$.signalR.connectionState.connected:
                     newState = signalr.ConnectionState.Connected;
                     break;
-                case this.window.$.signalR.connectionState.reconnecting:
+                case windowWrapperService.$.signalR.connectionState.reconnecting:
                     newState = signalr.ConnectionState.Reconnecting;
                     break;
-                case this.window.$.signalR.connectionState.disconnected:
+                case windowWrapperService.$.signalR.connectionState.disconnected:
                     newState = signalr.ConnectionState.Disconnected;
                     break;
             }

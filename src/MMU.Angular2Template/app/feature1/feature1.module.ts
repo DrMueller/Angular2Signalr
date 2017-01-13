@@ -10,9 +10,6 @@ import * as services from "./shared/services/index";
 
 import * as signalr from "../shared/signalr/index";
 
-let channelConfig = new signalr.ChannelConfig();
-channelConfig.url = "http://localhost:13173/signalr";
-channelConfig.hubName = "ChannelHub"; // This name has to match the Type-Name on the Server-Class
 
 @NgModule({
     imports: [
@@ -29,8 +26,7 @@ channelConfig.hubName = "ChannelHub"; // This name has to match the Type-Name on
     ],
     providers: [
         services.HelloWorldService,
-        { provide: signalr.SignalrWindow, useValue: window },
-        { provide: "channel.config", useValue: channelConfig },
+        signalr.ChannelService,
         services.SignalrTestService
     ]
 })

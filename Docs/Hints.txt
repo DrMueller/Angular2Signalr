@@ -1,3 +1,12 @@
 Had to manually fix jQuery/SignalR-Bug:
 https://github.com/SignalR/SignalR/issues/3710 
-See for the exact change: https://github.com/alextkachuk/SignalR/commit/297a3c269f423e31c678d92d4384de4a65d6cc0f 
+See for the exact change: https://github.com/alextkachuk/SignalR/commit/297a3c269f423e31c678d92d4384de4a65d6cc0f
+
+Jquery: 
+http://stackoverflow.com/questions/39511788/how-to-import-jquery-to-angular2-typescrypt-projects
+
+
+TypeScript-Versions for VS:
+http://stackoverflow.com/questions/32385087/vs2015-change-typescript-version 
+"C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v15.0\TypeScript\Microsoft.TypeScript.targets" 
+--> The NuGet Package got priority, so we use it to define the version
